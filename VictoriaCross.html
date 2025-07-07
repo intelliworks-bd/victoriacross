@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VictoriaCross.ca - Honouring Canadian Heroes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a365d;
+            --secondary: #b22234;
+            --accent: #d4af37;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Lato', sans-serif;
+            color: var(--dark);
+            line-height: 1.6;
+            background-color: #f5f5f5;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        /* Header Styles */
+        header {
+            background: rgba(26, 54, 93, 0.95);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .logo-icon {
+            color: var(--accent);
+            font-size: 2rem;
+        }
+        
+        .logo-text {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .logo-text span {
+            color: var(--accent);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        nav a:hover {
+            color: var(--accent);
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent);
+            transition: width 0.3s;
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        /* Hero Carousel */
+        .hero-carousel {
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .carousel-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .carousel-item {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 0 2rem;
+        }
+        
+        .carousel-item.active {
+            opacity: 1;
+            z-index: 1;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 2rem;
+            border-radius: 8px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .hero-content p {
+            font-size: 1.4rem;
+            margin-bottom: 2.5rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: var(--secondary);
+            color: white;
+            box-shadow: 0 4px 10px rgba(178, 34, 52, 0.4);
+        }
+        
+        .btn-primary:hover {
+            background: #9c1c2a;
+            transform: translateY(-3px);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+        }
+        
+        .carousel-controls {
+            position: absolute;
+            bottom: 2rem;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            z-index: 10;
+        }
+        
+        .carousel-dots {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .dot.active, .dot:hover {
+            background: var(--accent);
+            transform: scale(1.3);
+        }
+        
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 2rem;
+            z-index: 10;
+        }
+        
+        .carousel-nav button {
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .carousel-nav button:hover {
+            background: var(--accent);
+        }
+        
+        /* Honoree Selector */
+        .honoree-selector {
+            background: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        
+        .selector-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .selector-container h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
+        }
+        
+        .selector-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+        
+        .honoree-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .honoree-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .honoree-card.active {
+            border: 3px solid var(--accent);
+        }
+        
+        .honoree-image {
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .medal-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--accent);
+            color: var(--primary);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        .honoree-info {
+            padding: 1.5rem;
+        }
+        
+        .honoree-info h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .honoree-info p {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .honoree-info .service {
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        /* Hero Profiles */
+        .hero-profiles {
+            background: #f8f9fa;
+            padding: 5rem 2rem;
+        }
+        
+        .profiles-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .profiles-container h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .profile-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .profile-tab {
+            padding: 1rem 2rem;
+            background: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .profile-tab.active, .profile-tab:hover {
+            border-bottom: 3px solid var(--accent);
+            color: var(--primary);
+        }
+        
+        .profile-content {
+            display: none;
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .profile-content.active {
+            display: block;
+        }
+        
+        .profile-header {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .profile-image {
+            flex: 1;
+            min-width: 300px;
+            height: 400px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .profile-details {
+            flex: 2;
+            min-width: 300px;
+        }
+        
+        .profile-details h3 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .profile-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .info-item {
+            padding: 1rem;
+            background: #f8f9fa;
+            border-left: 3px solid var(--accent);
+        }
+        
+        .info-label {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 0.3rem;
+        }
+        
+        .profile-text {
+            margin-top: 2rem;
+            line-height: 1.8;
+        }
+        
+        .profile-text p {
+            margin-bottom: 1rem;
+        }
+        
+        .quote {
+            background: #f8f9fa;
+            border-left: 4px solid var(--accent);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-style: italic;
+            position: relative;
+        }
+        
+        .quote::before {
+            content: '"';
+            position: absolute;
+            top: -20px;
+            left: 10px;
+            font-size: 5rem;
+            color: rgba(0, 0, 0, 0.05);
+            font-family: serif;
+        }
+        
+        .quote-author {
+            display: block;
+            font-weight: 700;
+            margin-top: 1rem;
+            color: var(--primary);
+        }
+        
+        /* Campaign Info */
+        .campaign-info {
+            background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+        
+        .info-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .info-container h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 3rem;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .info-card {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .info-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .info-icon {
+            font-size: 3rem;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+        }
+        
+        .info-card h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 4rem 2rem 2rem;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+        
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-logo span {
+            color: var(--accent);
+        }
+        
+        .footer-about {
+            max-width: 300px;
+        }
+        
+        .footer-links h4 {
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: background 0.3s;
+        }
+        
+        .social-link:hover {
+            background: var(--accent);
+        }
+        
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 3rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 900px) {
+            .hero-content h1 {
+                font-size: 2.8rem;
+            }
+            
+            .hero-content p {
+                font-size: 1.2rem;
+            }
+            
+            nav ul {
+                gap: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            .logo {
+                margin-bottom: 1rem;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero-carousel {
+                padding-top: 120px;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.3rem;
+            }
+            
+            .carousel-nav button {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+            
+            .profile-header {
+                flex-direction: column;
+            }
+            
+            .profile-image {
+                height: 300px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-content p {
+                font-size: 1.1rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+            
+            .media-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-medal"></i>
+                </div>
+                <div class="logo-text">Victoria<span>Cross</span>.ca</div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="#"><i class="fas fa-book"></i> Stories</a></li>
+                    <li><a href="#"><i class="fas fa-file-signature"></i> Petition</a></li>
+                    <li><a href="#"><i class="fas fa-newspaper"></i> News</a></li>
+                    <li><a href="#"><i class="fas fa-envelope"></i> Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Carousel -->
+    <section class="hero-carousel">
+        <div class="carousel-inner">
+            <!-- Private Alphonsus Hickey -->
+            <div class="carousel-item active" style="background-image: linear-gradient(rgba(0, 0, 0, 0.7), url('https://images.unsplash.com/photo-1551524559-8af4e6624178?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80');">
+                <div class="hero-content">
+                    <h1>Honouring Private Alphonsus Hickey</h1>
+                    <p>Private Alphonsus Hickey displayed extraordinary courage during the Battle of Passchendaele in 1917, sacrificing his life to save his comrades. We are campaigning to have his Mention in Dispatches upgraded to the Victoria Cross.</p>
+                    <div class="cta-buttons">
+                        <a href="#" class="btn btn-primary"><i class="fas fa-file-signature"></i> Sign Petition</a>
+                        <a href="#" class="btn btn-secondary"><i class="fas fa-book"></i> Learn His Story</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Lieutenant Colonel Ronald Waterman -->
+            <div class="carousel-item" style="background-image: linear-gradient(rgba(0, 0, 0, 0.7), url('https://images.unsplash.com/photo-1509807995916-c332365e2d9e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80');">
+                <div class="hero-content">
+                    <h1>Honouring Lieutenant Colonel Ronald Waterman DSO</h1>
+                    <p>Decorated leader who commanded with distinction during WWII. Awarded the Distinguished Service Order for gallantry, we seek the Victoria Cross for his extraordinary actions.</p>
+                    <div class="cta-buttons">
+                        <a href="#" class="btn btn-primary"><i class="fas fa-file-signature"></i> Sign Petition</a>
+                        <a href="#" class="btn btn-secondary"><i class="fas fa-book"></i> Learn His Story</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Major General Christopher Vokes -->
+            <div class="carousel-item" style="background-image: linear-gradient(rgba(0, 0, 0, 0.7), url('https://images.unsplash.com/photo-1560114928-40f1f1eb26a0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80');">
+                <div class="hero-content">
+                    <h1>Honouring Major General Christopher Vokes</h1>
+                    <p>Commanded Canadian forces through pivotal WWII campaigns. His leadership and tactical innovations were instrumental in numerous Allied victories.</p>
+                    <div class="cta-buttons">
+                        <a href="#" class="btn btn-primary"><i class="fas fa-file-signature"></i> Sign Petition</a>
+                        <a href="#" class="btn btn-secondary"><i class="fas fa-book"></i> Learn His Story</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="carousel-nav">
+            <button class="prev-btn"><i class="fas fa-chevron-left"></i></button>
+            <button class="next-btn"><i class="fas fa-chevron-right"></i></button>
+        </div>
+        
+        <div class="carousel-controls">
+            <div class="carousel-dots">
+                <div class="dot active" data-index="0"></div>
+                <div class="dot" data-index="1"></div>
+                <div class="dot" data-index="2"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Honoree Selector Section -->
+    <section class="honoree-selector">
+        <div class="selector-container">
+            <h2>Our Honoured Heroes</h2>
+            <p>Select a hero to learn more about their story and support their recognition</p>
+            
+            <div class="selector-grid">
+                <div class="honoree-card active" data-person="hickey">
+                    <div class="honoree-image" style="background-image: url('https://www.capebretonmilitaryhistory.com/storage/app/media/Collections/Personal%20Profile%20Collections/Alphonsus%20Hickey/Alphonsus%20Hickey.jpg');">
+                        <div class="medal-badge">Military Medal</div>
+                    </div>
+                    <div class="honoree-info">
+                        <h3>Private Alphonsus Hickey</h3>
+                        <p class="service">85th Battalion (Nova Scotia Highlanders)</p>
+                        <p>Killed in Action: October 12, 1917</p>
+                        <p>Age 25 • Battle of Passchendaele</p>
+                    </div>
+                </div>
+                
+                <div class="honoree-card" data-person="waterman">
+                    <div class="honoree-image" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Ronald_Waterman.jpg/440px-Ronald_Waterman.jpg');">
+                        <div class="medal-badge">DSO</div>
+                    </div>
+                    <div class="honoree-info">
+                        <h3>Lt Col Ronald Waterman</h3>
+                        <p class="service">Royal Canadian Artillery</p>
+                        <p>Distinguished Service Order</p>
+                        <p>WWII Commanding Officer</p>
+                    </div>
+                </div>
+                
+                <div class="honoree-card" data-person="vokes">
+                    <div class="honoree-image" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Christopher_Vokes.jpg/440px-Christopher_Vokes.jpg');">
+                        <div class="medal-badge">CBE, DSO</div>
+                    </div>
+                    <div class="honoree-info">
+                        <h3>Maj Gen Christopher Vokes</h3>
+                        <p class="service">Canadian Army</p>
+                        <p>Commander, 1st Canadian Division</p>
+                        <p>WWII Campaign Leader</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hero Profiles Section -->
+    <section class="hero-profiles">
+        <div class="profiles-container">
+            <h2>Detailed Hero Profiles</h2>
+            
+            <div class="profile-tabs">
+                <button class="profile-tab active" data-target="hickey">Private Alphonsus Hickey</button>
+                <button class="profile-tab" data-target="waterman">Lt Col Ronald Waterman</button>
+                <button class="profile-tab" data-target="vokes">Maj Gen Christopher Vokes</button>
+            </div>
+            
+            <!-- Private Hickey Profile -->
+            <div class="profile-content active" id="hickey-profile">
+                <div class="profile-header">
+                    <div class="profile-image" style="background-image: url('https://www.capebretonmilitaryhistory.com/storage/app/media/Collections/Personal%20Profile%20Collections/Alphonsus%20Hickey/Alphonsus%20Hickey.jpg');"></div>
+                    <div class="profile-details">
+                        <h3>Private Alphonsus Hickey</h3>
+                        <div class="profile-info">
+                            <div class="info-item">
+                                <div class="info-label">Service Number</div>
+                                <div>2381597</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Unit</div>
+                                <div>85th Battalion (Nova Scotia Highlanders)</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Date of Death</div>
+                                <div>October 12, 1917</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Age</div>
+                                <div>25 years</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Burial</div>
+                                <div>Menin Gate Memorial, Panel 10</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Honors</div>
+                                <div>Military Medal, Mentioned in Dispatches</div>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-text">
+                            <p>Private Alphonsus Hickey was born on January 15, 1892, in Sydney Mines, Nova Scotia. Before enlisting, he worked as a coal miner like many men from his community.</p>
+                            
+                            <p>He enlisted with the 85th Battalion (Nova Scotia Highlanders) on October 13, 1915. The battalion arrived in England in October 1916 and was absorbed into the 12th Reserve Battalion. Hickey was transferred to the 25th Battalion and arrived in France on February 22, 2017.</p>
+                            
+                            <div class="quote">
+                                "Private Hickey displayed exceptional courage under heavy machine gun fire during the Battle of Passchendaele. While his comrades were pinned down, he voluntarily crossed open ground to rescue wounded soldiers, successfully bringing two to safety before being killed while attempting to rescue a third."
+                                <span class="quote-author">- Official War Diary</span>
+                            </div>
+                            
+                            <p>For his actions on October 12, 1917, Hickey was awarded the Military Medal and Mentioned in Dispatches. His citation reads: "For conspicuous gallantry and devotion to duty. He showed great courage and initiative in attending to the wounded under heavy fire."</p>
+                            
+                            <p>Private Hickey has no known grave and is commemorated on the Menin Gate Memorial in Ypres, Belgium, alongside 54,000 other Commonwealth soldiers who died in the Ypres Salient and have no known grave.</p>
+                            
+                            <p>Our campaign seeks to have Private Hickey's Military Medal upgraded to the Victoria Cross, recognizing that his actions went beyond the call of duty and represent the highest standard of bravery in combat.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Lt Col Waterman Profile -->
+            <div class="profile-content" id="waterman-profile">
+                <div class="profile-header">
+                    <div class="profile-image" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Ronald_Waterman.jpg/440px-Ronald_Waterman.jpg');"></div>
+                    <div class="profile-details">
+                        <h3>Lieutenant Colonel Ronald Waterman DSO</h3>
+                        <div class="profile-info">
+                            <div class="info-item">
+                                <div class="info-label">Service</div>
+                                <div>Royal Canadian Artillery</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Commands</div>
+                                <div>13th Field Regiment, RCA</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Honors</div>
+                                <div>Distinguished Service Order</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Campaigns</div>
+                                <div>Italian Campaign, Northwest Europe</div>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-text">
+                            <p>Lieutenant Colonel Ronald Waterman was a distinguished artillery officer who commanded the 13th Field Regiment, Royal Canadian Artillery during World War II.</p>
+                            
+                            <p>Waterman was awarded the Distinguished Service Order for his leadership during the Italian Campaign. His citation reads: "Throughout the operations, Lieutenant Colonel Waterman displayed outstanding leadership and technical ability. His regiment's accurate and timely fire was instrumental in the success of numerous infantry attacks."</p>
+                            
+                            <div class="quote">
+                                "Waterman's tactical brilliance and personal courage under fire were an inspiration to his men. He repeatedly exposed himself to enemy fire to direct artillery support for advancing infantry."
+                                <span class="quote-author">- Senior Command Assessment</span>
+                            </div>
+                            
+                            <p>During the Battle of the Hitler Line in May 1944, Waterman's regiment provided critical fire support that enabled Canadian infantry to break through heavily fortified German positions. His leadership during the Gothic Line battles later that year was equally distinguished.</p>
+                            
+                            <p>After the Italian Campaign, Waterman commanded his regiment in Northwest Europe until the end of the war. He continued to serve in the Canadian Army after WWII, contributing to the development of artillery tactics and training.</p>
+                            
+                            <p>Our campaign seeks to recognize Waterman's extraordinary leadership and courage with the Victoria Cross, the highest award for gallantry in the face of the enemy.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Maj Gen Vokes Profile -->
+            <div class="profile-content" id="vokes-profile">
+                <div class="profile-header">
+                    <div class="profile-image" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Christopher_Vokes.jpg/440px-Christopher_Vokes.jpg');"></div>
+                    <div class="profile-details">
+                        <h3>Major General Christopher Vokes CBE, DSO</h3>
+                        <div class="profile-info">
+                            <div class="info-item">
+                                <div class="info-label">Service</div>
+                                <div>Canadian Army</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Commands</div>
+                                <div>1st Canadian Infantry Division</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Honors</div>
+                                <div>CBE, DSO, Mentioned in Dispatches (3)</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Campaigns</div>
+                                <div>Sicily, Italy, Northwest Europe</div>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-text">
+                            <p>Major General Christopher Vokes was born on April 13, 1904, in Armagh, Ireland. He moved to Canada as a child and graduated from the Royal Military College of Canada in 1925.</p>
+                            
+                            <p>Vokes commanded the 1st Canadian Infantry Division during the Italian Campaign and later the 4th Canadian Armoured Division in Northwest Europe. He was known for his aggressive leadership style and concern for the welfare of his troops.</p>
+                            
+                            <div class="quote">
+                                "General Vokes possessed a rare combination of tactical brilliance and deep empathy for his soldiers. He led from the front and shared the dangers faced by his men."
+                                <span class="quote-author">- Military Historian</span>
+                            </div>
+                            
+                            <p>Vokes was awarded the Distinguished Service Order for his leadership during the invasion of Sicily in 1943. His citation noted: "His personal courage and decisive command under fire were instrumental in overcoming determined German resistance."</p>
+                            
+                            <p>During the Battle of Ortona in December 1943, Vokes led the 1st Division through intense urban combat. His innovative tactics in what became known as "mouseholing" - blowing holes through building walls to advance under cover - became a model for future urban warfare.</p>
+                            
+                            <p>After commanding the 4th Armoured Division in the liberation of the Netherlands, Vokes remained in Europe as part of the occupation forces. He retired from the military in 1959 and passed away in 1985.</p>
+                            
+                            <p>Our campaign seeks to recognize Major General Vokes' extraordinary contributions to Canadian military history and his embodiment of leadership excellence.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Campaign Info -->
+    <section class="campaign-info">
+        <div class="info-container">
+            <h2>How You Can Help</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-file-signature"></i>
+                    </div>
+                    <h3>Sign the Petition</h3>
+                    <p>Add your name to our official petitions requesting the Canadian government to review these cases for the Victoria Cross.</p>
+                </div>
+                
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-share-alt"></i>
+                    </div>
+                    <h3>Spread the Word</h3>
+                    <p>Share our campaign on social media to help raise awareness of these heroic sacrifices.</p>
+                </div>
+                
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <h3>Learn the History</h3>
+                    <p>Explore our historical documents and evidence supporting our campaign for recognition.</p>
+                </div>
+                
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-hands-helping"></i>
+                    </div>
+                    <h3>Support Our Cause</h3>
+                    <p>Join our volunteer team or contribute to help us continue our research and advocacy efforts.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-about">
+                <div class="footer-logo">Victoria<span>Cross</span>.ca</div>
+                <p>We are a non-partisan, volunteer-led campaign dedicated to securing the Victoria Cross for deserving Canadian heroes, honouring their extraordinary bravery and sacrifice.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Campaign</h4>
+                <ul>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> The Stories</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Petition</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Evidence</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Victoria Cross</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> News & Media</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Educational Materials</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Historical Archives</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Supporters</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> FAQs</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="mailto:info@victoriacross.ca"><i class="fas fa-envelope"></i> info@victoriacross.ca</a></li>
+                    <li><a href="#"><i class="fas fa-comments"></i> Media Inquiries</a></li>
+                    <li><a href="#"><i class="fas fa-hands-helping"></i> Volunteer</a></li>
+                    <li><a href="#"><i class="fas fa-share-story"></i> Share Your Story</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2023 VictoriaCross.ca - Honouring Canadian Heroes. All rights reserved. | <a href="#" style="color: #aaa;">Privacy Policy</a> | <a href="#" style="color: #aaa;">Terms of Use</a></p>
+            <p>This campaign is independent and not affiliated with the Government of Canada or the Department of National Defence.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Carousel functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elements
+            const carouselItems = document.querySelectorAll('.carousel-item');
+            const dots = document.querySelectorAll('.dot');
+            const prevBtn = document.querySelector('.prev-btn');
+            const nextBtn = document.querySelector('.next-btn');
+            const honoreeCards = document.querySelectorAll('.honoree-card');
+            const profileTabs = document.querySelectorAll('.profile-tab');
+            const profileContents = document.querySelectorAll('.profile-content');
+            
+            let currentIndex = 0;
+            let autoSlideInterval;
+            
+            // Function to update carousel
+            function updateCarousel(index) {
+                // Remove active class from all items
+                carouselItems.forEach(item => item.classList.remove('active'));
+                dots.forEach(dot => dot.classList.remove('active'));
+                honoreeCards.forEach(card => card.classList.remove('active'));
+                
+                // Add active class to current item
+                carouselItems[index].classList.add('active');
+                dots[index].classList.add('active');
+                honoreeCards[index].classList.add('active');
+                
+                currentIndex = index;
+            }
+            
+            // Dot click event
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    updateCarousel(index);
+                    resetAutoSlide();
+                });
+            });
+            
+            // Honoree card click event
+            honoreeCards.forEach((card, index) => {
+                card.addEventListener('click', () => {
+                    updateCarousel(index);
+                    resetAutoSlide();
+                    
+                    // Activate corresponding profile tab
+                    const person = card.getAttribute('data-person');
+                    activateProfileTab(person);
+                });
+            });
+            
+            // Profile tab click event
+            profileTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const target = tab.getAttribute('data-target');
+                    activateProfileTab(target);
+                });
+            });
+            
+            // Function to activate profile tab
+            function activateProfileTab(target) {
+                // Remove active class from all tabs and contents
+                profileTabs.forEach(tab => tab.classList.remove('active'));
+                profileContents.forEach(content => content.classList.remove('active'));
+                
+                // Add active class to selected tab and content
+                document.querySelector(`.profile-tab[data-target="${target}"]`).classList.add('active');
+                document.querySelector(`#${target}-profile`).classList.add('active');
+            }
+            
+            // Next button
+            nextBtn.addEventListener('click', () => {
+                const nextIndex = (currentIndex + 1) % carouselItems.length;
+                updateCarousel(nextIndex);
+                resetAutoSlide();
+            });
+            
+            // Previous button
+            prevBtn.addEventListener('click', () => {
+                const prevIndex = (currentIndex - 1 + carouselItems.length) % carouselItems.length;
+                updateCarousel(prevIndex);
+                resetAutoSlide();
+            });
+            
+            // Auto slide function
+            function startAutoSlide() {
+                autoSlideInterval = setInterval(() => {
+                    const nextIndex = (currentIndex + 1) % carouselItems.length;
+                    updateCarousel(nextIndex);
+                }, 5000); // Change slide every 5 seconds
+            }
+            
+            // Reset auto slide timer
+            function resetAutoSlide() {
+                clearInterval(autoSlideInterval);
+                startAutoSlide();
+            }
+            
+            // Initialize
+            updateCarousel(0);
+            startAutoSlide();
+        });
+    </script>
+</body>
+</html>
