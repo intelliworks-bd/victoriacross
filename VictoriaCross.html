@@ -782,8 +782,13 @@
             <p>Select a hero to learn more about their story and support their recognition</p>
             
             <div class="selector-grid">
+                .fit-image {
+                  width: 500px; /* Or any desired width */
+                  height: 300px; /* Or any desired height */
+                  object-fit: cover; /* Or other `object-fit` values as needed */
+                }
                 <div class="honoree-card active" data-person="hickey">
-                    <div class="honoree-image" style="background-image: url('\\Alphonsus-Hickey.jpg&auto=format&fit=crop&w=1920&q=80');">
+                    <div class="honoree-image" style="background-image: url('\\Alphonsus-Hickey.jpg') class="fit-image";">
                         <div class="medal-badge">Military Medal</div>
                     </div>
                     <div class="honoree-info">
@@ -807,7 +812,7 @@
                 </div>
                 
                 <div class="honoree-card" data-person="vokes">
-                    <div class="honoree-image" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Christopher_Vokes.jpg/440px-Christopher_Vokes.jpg');">
+                    <div class="honoree-image" style="background-image: url('Christopher-Vokes.jpg');">
                         <div class="medal-badge">CBE, DSO</div>
                     </div>
                     <div class="honoree-info">
